@@ -114,10 +114,6 @@ jobs:
           name: OpenLens-${{ matrix.os }}
           retention-days: 5
           path: |
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.dmg
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.AppImage
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.deb
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.rpm
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.zip
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.exe
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.sha256
@@ -131,10 +127,6 @@ jobs:
           tag_name: v${{ env.LENS_VERSION }}
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: | 
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.dmg
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.AppImage
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.deb
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.rpm
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.zip
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.exe
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.sha256
@@ -144,10 +136,6 @@ jobs:
         with:
           tag_name: Latest
           files: | 
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.dmg
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.AppImage
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.deb
-            lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.rpm
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.zip
             lens/packages/open-lens/dist/OpenLens.Setup.${{ env.LENS_VERSION }}.exe
             lens/packages/open-lens/dist/lates*.yml
