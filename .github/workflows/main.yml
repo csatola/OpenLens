@@ -10,10 +10,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: [windows-latest]
     timeout-minutes: 360
     steps:
       - name: Checkout OpenLens
@@ -39,51 +36,12 @@ jobs:
       - name: Build Lens
         run: |
           mkdir releasefiles
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            choco install visualstudio2019buildtools visualstudio2019-workload-vctools
-          fi
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            if [ "${CSC_LINK}" = "" ]; then
-              unset CSC_LINK
-            fi
-            
-            if [ "${CSC_KEY_PASSWORD}" = "" ]; then
-              unset CSC_KEY_PASSWORD
-            fi
-            yarn
-            yarn run build
-            yarn run build:app
-            for file in packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.dmg; do
-              if [[ "$file" == *"arm64"* ]]; then
-                cp "$file" releasefiles/OpenLens-${{ env.LENS_VERSION }}-arm64.dmg
-              else
-                cp "$file" releasefiles/OpenLens-${{ env.LENS_VERSION }}.dmg
-              fi
-            done
-            for file in packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}-mac.zip; do
-              if [[ "$file" == *"arm64"* ]]; then
-                cp "$file" releasefiles/OpenLens-${{ env.LENS_VERSION }}-arm64.zip
-              else
-                cp "$file" releasefiles/OpenLens-${{ env.LENS_VERSION }}.zip
-              fi
-            done
-          elif [ "$RUNNER_OS" == "Linux" ]; then
-            yarn
-            yarn run build
-            yarn run build:app
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.x86_64.AppImage releasefiles/OpenLens-${{ env.LENS_VERSION }}.AppImage
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.amd64.deb releasefiles/OpenLens-${{ env.LENS_VERSION }}.deb
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.x86_64.rpm releasefiles/OpenLens-${{ env.LENS_VERSION }}.rpm
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.arm64.AppImage releasefiles/OpenLens-${{ env.LENS_VERSION }}.arm64.AppImage
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.arm64.deb releasefiles/OpenLens-${{ env.LENS_VERSION }}.arm64.deb
-            cp packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.aarch64.rpm releasefiles/OpenLens-${{ env.LENS_VERSION }}.arm64.rpm
-          else
-            yarn
-            yarn run build
-            yarn run build:app
-            cp packages/open-lens/dist/OpenLens*.exe releasefiles/OpenLens-${{ env.LENS_VERSION }}.exe
-            cp packages/open-lens/dist/OpenLens*.exe packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.exe
-          fi
+          choco install visualstudio2019buildtools visualstudio2019-workload-vctools
+          yarn
+          yarn run build
+          yarn run build:app
+          cp packages/open-lens/dist/OpenLens*.exe releasefiles/OpenLens-${{ env.LENS_VERSION }}.exe
+          cp packages/open-lens/dist/OpenLens*.exe packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}.exe
         shell: bash
         working-directory: lens
         env:
@@ -111,7 +69,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: github.ref != 'refs/heads/main'
         with:
-          name: OpenLens-${{ matrix.os }}
+          name: OpenLens-Windows
           retention-days: 5
           path: |
             lens/packages/open-lens/dist/OpenLens-${{ env.LENS_VERSION }}*.zip
